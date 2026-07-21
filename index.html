@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Warp &amp; Weft — Handmade Goods Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #E4E0D2;
+    --paper-light: #F4F1E8;
+    --indigo: #263248;
+    --indigo-light: #3D4E6B;
+    --rust: #954832;
+    --gold: #B8862E;
+    --teal: #4B6E64;
+    --plum: #6B4F63;
+    --brown: #6B4A34;
+    --ink: #26221D;
+    --ink-soft: #5B564C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  h1, h2, .logo, .card-title { font-family: 'Zilla Slab', serif; }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, .chip:focus-visible {
+    outline: 2px solid var(--indigo);
+    outline-offset: 3px;
+  }
+
+  /* ---------- header ---------- */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 48px;
+    background: var(--paper-light);
+    border-bottom: 1px solid rgba(38,34,29,0.12);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .logo {
+    font-size: 23px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .logo em { color: var(--rust); font-style: normal; }
+  nav ul {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+  }
+  nav a {
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 14.5px;
+  }
+  nav a:hover { color: var(--rust); }
+  .basket-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--indigo);
+    color: var(--paper-light);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 3px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+  }
+  .basket-btn:hover { background: var(--indigo-light); }
+
+  /* ---------- hero: woven indigo band ---------- */
+  .hero {
+    position: relative;
+    background-color: var(--indigo);
+    background-image:
+      repeating-linear-gradient(0deg, rgba(244,241,232,0.05) 0px, rgba(244,241,232,0.05) 1px, transparent 1px, transparent 9px),
+      repeating-linear-gradient(90deg, rgba(244,241,232,0.05) 0px, rgba(244,241,232,0.05) 1px, transparent 1px, transparent 9px);
+    color: var(--paper-light);
+    text-align: center;
+    padding: 84px 24px 70px;
+  }
+  .hero-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: 46px;
+    font-weight: 600;
+    max-width: 640px;
+    margin: 0 auto 16px;
+    line-height: 1.18;
+  }
+  .hero p {
+    font-size: 16.5px;
+    color: rgba(244,241,232,0.78);
+    max-width: 480px;
+    margin: 0 auto 34px;
+  }
+  .search-bar {
+    display: flex;
+    max-width: 460px;
+    margin: 0 auto;
+    background: var(--paper-light);
+    border-radius: 3px;
+    padding: 5px;
+  }
+  .search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 11px 16px;
+    font-size: 14.5px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: transparent;
+    color: var(--ink);
+  }
+  .search-bar input::placeholder { color: var(--ink-soft); }
+  .search-bar button {
+    background: var(--rust);
+    color: var(--paper-light);
+    border: none;
+    padding: 10px 22px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-weight: 500;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+  }
+  .search-bar button:hover { background: #7d3b28; }
+
+  /* ---------- craft swatches (category filter) ---------- */
+  .swatch-bar {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 26px 24px;
+    background: var(--paper-light);
+    border-bottom: 1px solid rgba(38,34,29,0.1);
+  }
+  .chip {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px 8px 12px;
+    border-radius: 3px;
+    background: var(--paper);
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .chip .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .chip:hover { border-color: rgba(38,34,29,0.2); }
+  .chip.active {
+    background: var(--ink);
+    color: var(--paper-light);
+  }
+
+  /* ---------- stock grid ---------- */
+  .stock-section {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 56px 48px 90px;
+  }
+  .stock-section h2 {
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .stock-section .count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 30px;
+    display: block;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 30px 26px;
+  }
+  .card {
+    position: relative;
+    margin-top: 8px;
+    background: var(--paper-light);
+    border-radius: 4px;
+    overflow: visible;
+    box-shadow: 0 1px 3px rgba(38,34,29,0.08);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(38,34,29,0.12);
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 22px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid rgba(38,34,29,0.28);
+    z-index: 2;
+  }
+  .card-image {
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    background: var(--paper);
+    border-radius: 4px 4px 0 0;
+    border-bottom: 1px dashed rgba(38,34,29,0.18);
+  }
+  .card-body { padding: 16px 18px 18px; }
+  .card-no {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+  }
+  .card-category {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    margin: 3px 0 8px;
+  }
+  .card-title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    line-height: 1.3;
+  }
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card-price {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .add-btn {
+    background: transparent;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    padding: 6px 13px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.03em;
+  }
+  .add-btn:hover { background: var(--ink); color: var(--paper-light); }
+  .add-btn.added { background: var(--teal); border-color: var(--teal); color: var(--paper-light); }
+
+  .no-results {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--ink-soft);
+    display: none;
+  }
+  .no-results strong { display: block; color: var(--ink); margin-bottom: 6px; font-family: 'Zilla Slab', serif; font-size: 18px; }
+
+  /* ---------- footer ---------- */
+  footer {
+    text-align: center;
+    padding: 26px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    border-top: 1px solid rgba(38,34,29,0.12);
+  }
+
+  @media (max-width: 680px) {
+    header { padding: 16px 20px; }
+    nav ul { display: none; }
+    .hero { padding: 60px 20px 50px; }
+    .hero h1 { font-size: 32px; }
+    .stock-section { padding: 40px 20px 70px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Warp <em>&amp;</em> Weft</div>
+  <nav>
+    <ul>
+      <li><a href="#">Shop</a></li>
+      <li><a href="#">Makers</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+  </nav>
+  <button class="basket-btn">BASKET (<span id="basket-count">0</span>)</button>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">Small-batch &amp; hand-tagged</div>
+  <h1>Every item, tagged to the hand that made it</h1>
+  <p>Pottery, textiles, and jewelry from independent makers — numbered, dated, and one of a kind.</p>
+  <div class="search-bar">
+    <input type="text" id="search-input" placeholder="Search the stockroom…">
+    <button onclick="filterProducts()">Search</button>
+  </div>
+</section>
+
+<div class="swatch-bar" id="category-chips">
+  <div class="chip active" data-category="all" tabindex="0"><span class="dot" style="background:var(--ink)"></span>All</div>
+  <div class="chip" data-category="Pottery" tabindex="0"><span class="dot" style="background:var(--rust)"></span>Pottery</div>
+  <div class="chip" data-category="Textile" tabindex="0"><span class="dot" style="background:var(--indigo)"></span>Textile</div>
+  <div class="chip" data-category="Jewelry" tabindex="0"><span class="dot" style="background:var(--gold)"></span>Jewelry</div>
+  <div class="chip" data-category="Apparel" tabindex="0"><span class="dot" style="background:var(--teal)"></span>Apparel</div>
+  <div class="chip" data-category="Art" tabindex="0"><span class="dot" style="background:var(--plum)"></span>Art</div>
+  <div class="chip" data-category="Wood" tabindex="0"><span class="dot" style="background:var(--brown)"></span>Wood</div>
+</div>
+
+<section class="stock-section">
+  <h2>This week's stock</h2>
+  <span class="count" id="result-count">8 items</span>
+  <div class="grid" id="product-grid"></div>
+  <div class="no-results" id="no-results">
+    <strong>Nothing on the shelf for that search.</strong>
+    Try another word, or clear the filter above.
+  </div>
+</section>
+
+<footer>
+  BUILT FOR A GIT &amp; GITHUB PRACTICAL · WARP &amp; WEFT, EST. 2026
+</footer>
+
+<script>
+  const products = [
+    { name: "Hand-thrown Ceramic Mug", category: "Pottery", price: 22.50, icon: "🏺" },
+    { name: "Macrame Wall Hanging", category: "Textile", price: 38.00, icon: "🧶" },
+    { name: "Sterling Silver Ring", category: "Jewelry", price: 45.00, icon: "💍" },
+    { name: "Knit Wool Scarf", category: "Apparel", price: 29.99, icon: "🧣" },
+    { name: "Indigo Block-Print Runner", category: "Textile", price: 34.00, icon: "🧵" },
+    { name: "Watercolor Landscape Print", category: "Art", price: 32.00, icon: "🎨" },
+    { name: "Beaded Drop Earrings", category: "Jewelry", price: 18.50, icon: "✨" },
+    { name: "Hand-carved Walnut Bowl", category: "Wood", price: 41.00, icon: "🥣" },
+  ];
+
+  const categoryColor = {
+    Pottery: "var(--rust)", Textile: "var(--indigo)", Jewelry: "var(--gold)",
+    Apparel: "var(--teal)", Art: "var(--plum)", Wood: "var(--brown)"
+  };
+
+  let basketCount = 0;
+  let activeCategory = "all";
+
+  function renderProducts(list) {
+    const grid = document.getElementById("product-grid");
+    const noResults = document.getElementById("no-results");
+    const count = document.getElementById("result-count");
+    grid.innerHTML = "";
+
+    count.textContent = `${list.length} item${list.length === 1 ? "" : "s"}`;
+
+    if (list.length === 0) {
+      noResults.style.display = "block";
+      return;
+    }
+    noResults.style.display = "none";
+
+    list.forEach((p) => {
+      const originalIndex = products.indexOf(p);
+      const no = String(originalIndex + 1).padStart(3, "0");
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="card-image">${p.icon}</div>
+        <div class="card-body">
+          <div class="card-no">NO. ${no}</div>
+          <div class="card-category" style="color:${categoryColor[p.category]}">${p.category}</div>
+          <div class="card-title">${p.name}</div>
+          <div class="card-footer">
+            <span class="card-price">$${p.price.toFixed(2)}</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+      `;
+      const btn = card.querySelector(".add-btn");
+      btn.addEventListener("click", () => addToBasket(btn));
+      grid.appendChild(card);
+    });
+  }
+
+  function addToBasket(btn) {
+    basketCount++;
+    document.getElementById("basket-count").textContent = basketCount;
+    btn.textContent = "Added";
+    btn.classList.add("added");
+    setTimeout(() => {
+      btn.textContent = "+ Add";
+      btn.classList.remove("added");
+    }, 900);
+  }
+
+  function filterProducts() {
+    const query = document.getElementById("search-input").value.toLowerCase().trim();
+    let filtered = products.filter(p => activeCategory === "all" || p.category === activeCategory);
+    if (query) {
+      filtered = filtered.filter(p =>
+        p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query)
+      );
+    }
+    renderProducts(filtered);
+  }
+
+  document.querySelectorAll(".chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      activeCategory = chip.dataset.category;
+      filterProducts();
+    });
+    chip.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); chip.click(); }
+    });
+  });
+
+  document.getElementById("search-input").addEventListener("input", filterProducts);
+
+  renderProducts(products);
+</script>
+
+</body>
+</html>
